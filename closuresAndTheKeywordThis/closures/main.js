@@ -138,10 +138,34 @@ Examples:
     specialMultiply(3); // function(){}....
 */
 
-function specialMultiply(a,b){
-
+function specialMultiply(a, b) {
+  if (a && b) {
+    console.log('both parameters');
+    return a * b;
+  } else {
+    console.log('just one');
+    return function (c) {
+      return a * c;
+    };
+  }
 }
 
+/*
+NOTA CORREZIONE
+per controllare se c'è solo un argomento possiamo scrivere come condizione
+arguments.length ==  1
+
+function specialMultiply(a, b) {
+  if (arguments.length ==  1) {
+    return function (c) {
+      return a * c;
+    };
+  }
+  return a * b;
+}
+*/
+console.log(specialMultiply(3, 2));;
+console.log(specialMultiply(3)(4));
 /*
 Write a function called guessingGame which takes in one parameter amount. The function should return another function that takes in a parameter called guess. In the outer function, you should create a variable called answer which is the result of a random number between 0 and 10 as well as a variable called guesses which should be set to 0.
 
@@ -164,7 +188,44 @@ Examples (yours might not be like this, since the answer is random every time):
     game2(1) // "No more guesses the answer was 0"
     game2(1) // "You are all done playing!"
 */
+console.log('guessingGame');
+function guessingGame(amount) {
 
-function guessingGame(amount){
+  var answer = Math.ceil(Math.random() * 10);
 
+  var guesses = 0;
+
+  return function game(guess) {
+    guesses++;
+    if (guesses <= amount) {
+      switch (true) {
+        case guess < answer && guesses < amount:
+          return 'You"re too low!';
+        case guess === answer && guesses < amount:
+          return 'You got it!';
+        case guess > answer && guesses < amount:
+          return 'You"re too high!';
+        case guess === answer && guesses == amount:
+          return 'You got it!';
+        case guess != answer && guesses == amount:
+          return 'No more guesses the answer was ' + answer;
+        default: break;
+      }
+    }
+
+    return 'You are all done playing!';
+  };
 }
+
+var game = guessingGame(2);
+game(1) // "You're too low!"
+game(8) // "You're too high!"
+game(5) // "You're too low!"
+game(7) // "You got it!"
+game(1) // "You are all done playing!"
+
+var game2 = guessingGame(2)
+game2(5) // "You're too low!"
+game2(3) // "You're too low!"
+game2(1) // "No more guesses the answer was 0"
+game2(1) // "You are all done playing!"
