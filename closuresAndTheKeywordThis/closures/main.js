@@ -188,7 +188,7 @@ Examples (yours might not be like this, since the answer is random every time):
     game2(1) // "No more guesses the answer was 0"
     game2(1) // "You are all done playing!"
 */
-console.log('guessingGame');
+
 function guessingGame(amount) {
 
   var answer = Math.ceil(Math.random() * 10);
@@ -197,23 +197,27 @@ function guessingGame(amount) {
 
   return function game(guess) {
     guesses++;
-    if (guesses <= amount) {
-      switch (true) {
-        case guess < answer && guesses < amount:
-          return 'You"re too low!';
-        case guess === answer && guesses < amount:
-          return 'You got it!';
-        case guess > answer && guesses < amount:
-          return 'You"re too high!';
-        case guess === answer && guesses == amount:
-          return 'You got it!';
-        case guess != answer && guesses == amount:
-          return 'No more guesses the answer was ' + answer;
-        default: break;
-      }
-    }
 
-    return 'You are all done playing!';
+    switch (true) {
+
+      // guesses < amount
+      case guess < answer && guesses < amount:
+        return 'You"re too low!';
+      case guess === answer && guesses < amount:
+        return 'You got it!';
+      case guess > answer && guesses < amount:
+        return 'You"re too high!';
+
+      //guesses == amount
+      case guess === answer && guesses == amount:
+        return 'You got it!';
+      case guess != answer && guesses == amount:
+        return 'No more guesses the answer was ' + answer;
+
+      // guesses > amount
+      default:
+        return 'You are all done playing!';
+    }
   };
 }
 
