@@ -1,5 +1,6 @@
 
 // link locale per test: http://127.0.0.1:3000/
+//comando per lanciare l'app con nodemon in locale -> npx nodemon index.js
 
 //Dopo aver installato express lo chiamiamo
 var express = require('express');
