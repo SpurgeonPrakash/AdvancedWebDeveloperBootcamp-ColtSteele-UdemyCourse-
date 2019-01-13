@@ -23,14 +23,10 @@ var bodyParser = require('body-parser');
 //NON è necessario specificare l'estensione .js
 var todoRoutes = require('./routes/todos');
 
-/************ROUTES************/
-
-//GET
-app.get('/', function (req, res) {
-
-  res.send('Questa è la rotta principale dell"app');
-
-});
+//Con dirname accediamo dinamicamente alla
+//directory dell'app, che si eseguirà correttamente
+//indipendentemente dalla directory da cui verrà lanciata
+var appDirectory = __dirname;
 
 //dichiariamol'uso delle routes importate
 //nella var todoRoutes
@@ -44,6 +40,26 @@ app.use('/api/todos', todoRoutes);
 //NECESSARIO PER POST, PUT, DELETE!!!!
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//Definiamo le cartelle statiche cioè quelle
+//cartelle che contengono file per il cui
+//raggiungimento non è necessario fornire
+//il percorso ma solo il nome
+//IMPORTANTE concatenare il percorso della directory
+//a __dirname che è la var che contiene dinamicamente
+//il percorso alla cartella dell'app
+app.use(express.static(appDirectory + '/public'));
+app.use(express.static(appDirectory + '/views'));
+
+/************ROUTES************/
+
+//GET
+app.get('/', function (req, res) {
+  //Per inviare una pagina all'avvio del server
+  //possiamo scrivere solo il nome del file
+  //avendo dichiarato staticamente la sua cartella madre
+  res.sendFile('index.html');
+});
 
 //Fa partire il server sulla porta 3000
 app.listen(port, function () {
