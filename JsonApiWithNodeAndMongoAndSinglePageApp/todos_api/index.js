@@ -8,6 +8,7 @@ var express = require('express');
 // da cui potremo creare le routes ed
 // altre operazione di express
 var app = express();
+
 //sarà eseguito sulla porta 3000
 var port = 3000;
 
@@ -15,11 +16,13 @@ var port = 3000;
 
 //GET
 app.get('/', function (req, res) {
+
   //res.send invia l'output,
   //se mandiamo una stringa inviamo dell'html
   res.send('test express riuscito');
+
   //se mandiamo un oggetto Javascript inviamo un JSON
-  res.json({ messaggio: 'test invio JSON'});
+  res.json({ messaggio: 'test invio JSON' });
 
   //NOTA:
   //res.send() utilizza res.json({..}) al suo interno.
