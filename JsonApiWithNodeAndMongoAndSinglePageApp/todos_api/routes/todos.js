@@ -65,7 +65,7 @@ router.post('/', function (req, res) {
   //Mongodb non mi accetta a questo stadio
   //una POST request da postman quindi popolo
   //il db con un oggetto a mano anzichè req.body
-  db.Todo.create({ name: 'Test interno' })
+  db.Todo.create(req.body)
   .then(function (newTodo) {
     //dato salvato! feedback all'utente
     res.status(201).json(newTodo);
@@ -73,6 +73,86 @@ router.post('/', function (req, res) {
     console.log(error);
     res.send(error);
   });
+});
+
+//GET: '/api/todos/:todoId' (recuperare un singolo todo)
+router.get('/:todoId')
+.then(function (req, res) {
+  //leggiamo il contenuto dell'url /api/todos/:todoId
+  //nella parte :todoId -> req.params.todoId
+  //e chiediamo al db l'istanza di todo corrispondente
+  //SINTASSI PROMISES
+  //-> .then (caso successo restituiamo come json i dati)
+  //-> .catch (caso errore abbiamo l'errore dal db)
+  db.Todo.findById(req.params.todoId)
+  .then(function (foundTodo) {
+    console.log(foundTodo);
+    res.json(foundTodo);
+  })
+  .catch(function (dbError) {
+    console.log(dbError);
+  });
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+//PUT: '/api/todos/:todoId' (recuperare un singolo todo
+//e modificarlo)
+router.put('/:todoId')
+.then(function (req, res) {
+  //leggiamo il contenuto dell'url /api/todos/:todoId
+  //nella parte :todoId -> req.params.todoId
+  //e chiediamo al db l'istanza di todo corrispondente
+  //-> primo parametro: un oggetto contenente la chiave _id
+  //e il valore per la ricerca(id dell'istanza cercata)
+  //-> secondo parametro: il dato da inviare per aggiornare
+  //l'eventuale istanza trovata
+  //-> terzo parametro: opzioni(new: true permette di ottenere il
+  //todo aggiornato anzichè il vecchio cioè new:false (default))
+  var requestedTodoId = req.params.todoId;
+  db.Todo.findOneAndUpdate({ _id: requestedTodoId }, req.body, { new: true })
+
+  //SINTASSI PROMISES
+  //-> .then (caso successo restituiamo come json il todo Aggiornato)
+  //-> .catch (caso errore abbiamo l'errore dal db)
+  .then(function (updatedTodo) {
+    console.log(updatedTodo);
+    res.json(updatedTodo);
+  })
+  .catch(function (dbError) {
+    console.log(dbError);
+  });
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+//DELETE: '/api/todos/:todoId'
+//(recuperare un singolo todo e CANCELLARLO)
+router.delete('/:todoId')
+.then(function (req, res) {
+  //leggiamo il contenuto dell'url /api/todos/:todoId
+  //nella parte :todoId -> req.params.todoId
+  //e chiediamo al db l'istanza di todo corrispondente
+  //-> primo parametro: un oggetto contenente la chiave _id
+  //e il valore per la ricerca(id dell'istanza cercata)
+  var requestedTodoId = req.params.todoId;
+  db.Todo.remove({ _id: requestedTodoId })
+
+  //SINTASSI PROMISES
+  //-> .then (caso successo restituiamo feedback avvenuta cancellazione)
+  //-> .catch (caso errore abbiamo l'errore dal db)
+  .then(function (updatedTodo) {
+    console.log('deletion ok');
+    res.json('deletion ok');
+  })
+  .catch(function (dbError) {
+    console.log(dbError);
+  });
+})
+.catch(function (error) {
+  console.log(error);
 });
 
 //Esportiamo tutte le rotte definite
