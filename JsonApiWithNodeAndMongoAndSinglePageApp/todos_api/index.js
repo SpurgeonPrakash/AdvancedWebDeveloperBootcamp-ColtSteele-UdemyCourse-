@@ -12,15 +12,15 @@ var app = express();
 //sarà eseguito sulla porta 3000
 var port = 3000;
 
-//richiediamo le rotte relative al model Todo
-//prodotte dal file todos.js nella folder routes
-//NON è necessario specificare l'estensione .js
-var todoRoutes = require('./routes/todos');
-
 //Importiamo il package 'bodyParser' che rende leggibile
 //come classico oggetto JS il body delle request
 //NECESSARIO PER POST, PUT, DELETE!!!!
 var bodyParser = require('body-parser');
+
+//richiediamo le rotte relative al model Todo
+//prodotte dal file todos.js nella folder routes
+//NON è necessario specificare l'estensione .js
+var todoRoutes = require('./routes/todos');
 
 /************ROUTES************/
 
