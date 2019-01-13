@@ -12,23 +12,25 @@ var app = express();
 //sarà eseguito sulla porta 3000
 var port = 3000;
 
-//ROUTES
+//richiediamo le rotte relative al model Todo
+//prodotte dal file todos.js nella folder routes
+//NON è necessario specificare l'estensione .js
+var todoRoutes = require('./routes/todos');
+
+/************ROUTES************/
 
 //GET
 app.get('/', function (req, res) {
 
-  //res.send invia l'output,
-  //se mandiamo una stringa inviamo dell'html
-  res.send('test express riuscito');
-
-  //se mandiamo un oggetto Javascript inviamo un JSON
-  res.json({ messaggio: 'test invio JSON' });
-
-  //NOTA:
-  //res.send() utilizza res.json({..}) al suo interno.
-  // utilizzando res.json() si è più espliciti ma non cambia nulla
+  res.send('Questa è la rotta principale dell"app');
 
 });
+
+//dichiariamol'uso delle routes importate
+//nella var todoRoutes
+//->primo parametro: anteponiamo un prefisso alle routes
+//->secondo parametro: la var contenente le routes
+app.use('/api/todos', todoRoutes);
 
 //Fa partire il server sulla porta 3000
 app.listen(port, function () {
