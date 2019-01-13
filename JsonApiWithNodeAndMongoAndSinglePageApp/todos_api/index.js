@@ -17,6 +17,11 @@ var port = 3000;
 //NON è necessario specificare l'estensione .js
 var todoRoutes = require('./routes/todos');
 
+//Importiamo il package 'bodyParser' che rende leggibile
+//come classico oggetto JS il body delle request
+//NECESSARIO PER POST, PUT, DELETE!!!!
+var bodyParser = require('body-parser');
+
 /************ROUTES************/
 
 //GET
@@ -31,6 +36,13 @@ app.get('/', function (req, res) {
 //->primo parametro: anteponiamo un prefisso alle routes
 //->secondo parametro: la var contenente le routes
 app.use('/api/todos', todoRoutes);
+
+//dichiariamo l'utilizzo di 'body-parser' nell'app
+//che rende leggibile come classico oggetto JS
+//il body delle request
+//NECESSARIO PER POST, PUT, DELETE!!!!
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Fa partire il server sulla porta 3000
 app.listen(port, function () {

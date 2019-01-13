@@ -15,7 +15,9 @@ mongoose.set('debug', true);
 
 //lancia l'effettiva connessione al db
 //mongodb usa la porta 27017
-mongoose.connect('mongodb://localhost:27017/todo-api', { useNewUrlParser: true });
+//inserire l'ip di localhost e non solo localhost
+//atrimenti la connessione fallisce
+mongoose.connect('mongodb://127.0.0.1:27017/todo-api', { useNewUrlParser: true });
 
 //permette l'utilizzo delle promises
 //anzichè scrivere delle classiche
