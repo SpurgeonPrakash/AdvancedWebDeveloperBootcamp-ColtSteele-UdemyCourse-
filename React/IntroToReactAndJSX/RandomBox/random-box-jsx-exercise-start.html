@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSX Exercise</title>
+    <script src="https://unpkg.com/react@16.0.0-rc.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0-rc.2/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+
+  <script type="text/babel">
+    class RandomBox extends React.Component {
+      render() {
+
+        const colors = ['red', 'blue', 'green', 'yellow'];
+
+        const getRandomNumber = (min, max) => Math.ceil(Math.random() * (max - min + 1) + min );
+
+        const getRandomElementIn = (array) => array[Math.floor(Math.random() * array.length)];
+
+        const boxStyle = {
+          width: '450px',
+          height: '150px',
+          padding: '20px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        };
+
+        boxStyle.fontSize = `${getRandomNumber(10,15)}px`; `${getRandomNumber(10,25)}px`
+        boxStyle.backgroundColor =  `${getRandomElementIn(colors)}`;
+        boxStyle.color =  `${getRandomElementIn(colors)}`;
+
+        return (<div style={boxStyle}>
+          <h1>Make a box here!</h1>
+        </div>
+        );
+      }
+    }
+
+    ReactDOM.render(<RandomBox />, document.getElementById('app'));
+  </script>
+</body>
+</html>
