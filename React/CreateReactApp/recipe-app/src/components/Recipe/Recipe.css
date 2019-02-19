@@ -1,0 +1,33 @@
+.card {
+  border: 2px solid black;
+  max-width: 300px;
+  border-radius: 12px;
+  background:orange;
+  overflow: hidden;
+}
+
+.card .card-head {
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.card .card-head h1 {
+  text-transform: uppercase;
+}
+
+.card-body {
+  text-align: justify;
+}
+
+.card .card-body {
+  padding: 20px;
+  background: white;
+}
+.card .card-body img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+.card .card-body h5 {
+  font-size: 20px;
+}
