@@ -1,6 +1,9 @@
-#root {
-  padding-top: 100px;
+#root, .app {
   width: 100%;
+}
+
+.content {
   display: flex;
   justify-content: space-around;
+  align-items: stretch;
 }

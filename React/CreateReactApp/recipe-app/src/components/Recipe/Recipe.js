@@ -1,8 +1,10 @@
 import React from 'react';
 import {Component} from 'react';
 import './Recipe.css';
+import PropTypes from 'prop-types';
 
 class Recipe extends Component {
+
   render(){
 
     {/* Estraggo se esistono le prop,
@@ -28,5 +30,13 @@ class Recipe extends Component {
       );
   }
 }
+
+Recipe.propTypes = {
+  title: PropTypes.string.isRequired ,
+  img: PropTypes.string.isRequired ,
+  instructions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ingredients: PropTypes.string.isRequired,
+}
+
 
 export default Recipe;

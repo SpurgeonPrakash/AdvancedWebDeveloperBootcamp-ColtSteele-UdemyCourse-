@@ -1,12 +1,14 @@
 .card {
   border: 2px solid black;
-  max-width: 300px;
+  max-width: 25%;
   border-radius: 12px;
   background:orange;
   overflow: hidden;
 }
 
 .card .card-head {
+  height: 60px;
+  line-height: 60px;
   text-align: center;
   border-bottom: 1px solid black;
 }
@@ -17,17 +19,31 @@
 
 .card-body {
   text-align: justify;
+  padding: 20px;
 }
 
 .card .card-body {
   padding: 20px;
+  height: calc(100% - 60px);
   background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 .card .card-body img {
   max-width: 100%;
   border-radius: 6px;
+  margin-bottom: 20px;
 }
 
 .card .card-body h5 {
   font-size: 20px;
+}
+
+.card .card-body li{
+  margin: 20px 35px;
+}
+
+.card .card-body hr {
+  margin-bottom: 20px;
 }
