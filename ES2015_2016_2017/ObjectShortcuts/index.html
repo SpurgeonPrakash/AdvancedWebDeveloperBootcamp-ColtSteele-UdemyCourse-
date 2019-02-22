@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      <h1>Objects</h1>
+    <script>
+
+    /*
+      Quando si vuole passare chiave valore di una var
+      ad un oggetto si può passare semplicemente nome della var
+      durante la creazione dell'oggetto
+    */
+
+
+    var nome = 'Riccardo';
+    var cognome = 'Silvi';
+
+    //ES5
+    var persona1 = {
+      nome: nome,
+      cognome: cognome,
+    }
+
+    //ES2015
+
+    var persona2 = {
+      nome,
+      cognome
+    }
+
+    console.log(persona1);
+    console.log(persona2);
+
+    /*
+    E' possibile abbreviare la creazione di una
+    funzione in un oggetto, ATTENZIONE: mai usare
+    arrow function perchè non presentano il valore della
+    keyowrd this
+    */
+
+    var persona3 = {
+      nome,
+      cognome,
+      //ES5
+      salutaConEs5: function() {
+        console.log('Hello from ' + this.nome + ' '+ this.cognome);
+      },
+      //ES2015
+      saluta(){
+        console.log(`Hello from ${this.nome} ${this.cognome}`);
+      }
+    }
+
+    persona3.saluta();
+
+    /*
+      COMPUTED PROPERTIES
+      E possibile passare il valore di una variabile come chiave
+      direttamente
+    */
+
+    var chiave1 = 'nome';
+    var chiave2 = 'cognome';
+
+    //ES5
+    var persona4 = { }
+
+    persona4[chiave1] = 'Riccardo';
+    persona4[chiave2] = 'Silvi';
+    persona4.salutaConEs5 = function() {
+        console.log('Hello from ' + this.nome + ' '+ this.cognome);
+      }
+
+    //ES2015
+    var persona5 = {
+        [chiave1]: 'Riccardo',
+        [chiave2]: 'Silvi',
+        saluta(){
+          console.log(`Hello from ${this.nome} ${this.cognome}`);
+        }
+      }
+
+    persona5.saluta();
+    persona4.salutaConEs5();
+
+    </script>
+
+  </body>
+</html>
