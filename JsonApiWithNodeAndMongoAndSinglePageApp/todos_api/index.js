@@ -28,12 +28,6 @@ var todoRoutes = require('./routes/todos');
 //indipendentemente dalla directory da cui verrà lanciata
 var appDirectory = __dirname;
 
-//dichiariamol'uso delle routes importate
-//nella var todoRoutes
-//->primo parametro: anteponiamo un prefisso alle routes
-//->secondo parametro: la var contenente le routes
-app.use('/api/todos', todoRoutes);
-
 //dichiariamo l'utilizzo di 'body-parser' nell'app
 //che rende leggibile come classico oggetto JS
 //il body delle request
@@ -60,6 +54,12 @@ app.get('/', function (req, res) {
   //avendo dichiarato staticamente la sua cartella madre
   res.sendFile('index.html');
 });
+
+//dichiariamol'uso delle routes importate
+//nella var todoRoutes
+//->primo parametro: anteponiamo un prefisso alle routes
+//->secondo parametro: la var contenente le routes
+app.use('/api/todos', todoRoutes);
 
 //Fa partire il server sulla porta 3000
 app.listen(port, function () {
