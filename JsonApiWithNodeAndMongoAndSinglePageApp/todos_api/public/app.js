@@ -20,7 +20,23 @@ $(document).ready(function () {
         createTodo();
       }
     }
-    });
+  });
+
+  //Puntiamo ogni listitem tramite il padre che è
+  //già nella pagina al primo caricamento
+  $('.list').on('click','li', function(){
+    console.log('clicked on li');
+    updateTodo($(this));
+  });
+
+  //Puntiamo lo span tramite il padre che è
+  //già nella pagina al primo caricamento
+  $('.list').on('click', 'span', function(e){
+    //impedisce al click sullo span di causare anche il click dell li
+    e.stopPropagation();
+    console.log('clicked on span');
+    removeTodo($(this).parent());
+  });
 });
 
 function addTodos(todos) {
@@ -35,8 +51,10 @@ function addTodo(todoFromApi) {
   //racchiudiamo il tag in $() per
   //poter applicare i metodi di jQuery
   //come ad esempio addClass per stilarlo
-  var $newTodoLi = $('<li>' + todoFromApi.name + '</li>').addClass('task');
-
+  var $newTodoLi = $('<li>' + todoFromApi.name + '<span>X</span></li>').addClass('task');
+  //aggiungiamo un id all'oggetto jquery che rappresenta li
+  $newTodoLi.data('id',todoFromApi._id);
+  $newTodoLi.data('completed',todoFromApi.completed);
   //Se la proprietà completed dell'oggetto 'todo'
   //dall'api è true aggiungiamo la classe 'done'
   if (todoFromApi.completed) {
@@ -63,5 +81,49 @@ function createTodo(){
     .catch(function(error){
       console.log(error);
     })
+
+}
+
+function removeTodo(li){
+  //estraiamo l'id dall'oggetto jquery
+  var todoId = li.data('id');
+
+  //effettuiamo la delete request
+  $.ajax({
+    method: 'DELETE',
+    url: '/api/todos/' + todoId
+  })
+  .then(function(data){
+    console.log(data);
+    //se tutto va a buon fine cancelliamo
+    //il padre cioè l'li relativo
+    li.remove();
+  })
+  .catch(function(error){
+    console.log(error);
+  });
+
+}
+
+function updateTodo(li){
+
+  //estraiamo l'id e lo stato di completamento dall'oggetto jquery
+  var todoId = li.data('id');
+  var todoDone = li.data('completed');
+  var updateData = {completed: !todoDone};
+  $.ajax({
+    method: 'PUT',
+    url: '/api/todos/' + todoId,
+    data: updateData
+  })
+  .then(function(updatedTodo){
+    console.log(updatedTodo);
+    //toggle della class  e aggiornamento dell'oggetto
+    li.toggleClass('done').data('completed', !todoDone);
+  })
+  .catch(function(error){
+    console.log(error);
+  })
+
 
 }
