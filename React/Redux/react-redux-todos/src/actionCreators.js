@@ -4,13 +4,18 @@
 export const ADD_TODO = "ADD_TODO";
 export const REMOVE_TODO = "REMOVE_TODO";
 
+//creiamo l'action addTodo
 export function addTodo(task){
   return {
-    type: ADD_TODO
+    type: ADD_TODO,
+    task
   }
 }
+
+//creiamo l'action removeTodo
 export function removeTodo(id){
   return {
-    type: REMOVE_TODO
+    type: REMOVE_TODO,
+    id
   }
 }
