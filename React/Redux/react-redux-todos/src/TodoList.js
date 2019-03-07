@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import Todo from './Todo';
+import NewTodoForm from './NewTodoForm';
 //con connect connetteremo lo store al componente
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 //importiamo le funzioni add e remove
-import {addTodo, removeTodo} from './actionCreators';
+import { addTodo, removeTodo } from './actionCreators';
+//REACT ROUTER
+import {Route} from 'react-router-dom';
 
 class TodoList extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     //NON USIAMO PIù LO STATE CLASSICO!
@@ -15,17 +18,15 @@ class TodoList extends Component {
     //Per ciò che "nasce e muore " nel componente usiamo
     //il classico state normale
 
-    this.state = {
-      task:""
-    }
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    // this.removeTodo = this.removeTodo.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
 
   }
 
-  removeTodo(id){
+  handleAdd(val){
+    this.props.addTodo(val);
+  }
+
+  removeTodo(id) {
     //1.prima di importare le actions con connect e mapDispatchToProps
     // this.props.dispatch({
     //   type: "REMOVE_TODO",
@@ -35,53 +36,34 @@ class TodoList extends Component {
     this.props.removeTodo(id)
   }
 
-  handleSubmit(e){
-    e.preventDefault();
-    //il metodo dispatch è ora in props
-    //chiamiamo l'azione di tipo addtodo
-    //passando il dato task da state
-    //1.prima di importare le actions con connect e mapDispatchToProps
-    // this.props.dispatch({type: "ADD_TODO", task: this.state.task});
-    //2.dopo aver importato le actions con connect e mapDispatchToProps
-    this.props.addTodo(this.state.task);
-    //ripristiniamo lo state dell'input da cui proviene il dato
-    // this.setState({[e.target.name]: ""})
-    //puliamo il form
-    e.target.reset();
-  }
-
-  handleChange(e){
-    this.setState({[e.target.name]: e.target.value})
-  }
-
-  render(){
+  render() {
 
     //lo state di redux passato a props ha trasmesso
     //un array di oggetti quindi con map
     //creiamo gli li con il valore della chiave task
     //di ogni oggetto
-    const {todos} = this.props;
+    const { todos } = this.props;
 
-    const listItems = todos.map((todoObj, index)=>(
-      <Todo key={index} task={todoObj.task} removeTodo={this.removeTodo.bind(this,todoObj.id)} />
+    const listItems = todos.map((todoObj, index) => (
+      <Todo key={index} task={todoObj.task} removeTodo={this.removeTodo.bind(this, todoObj.id)} />
     ));
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-        <label htmlFor="task">Task</label>
-        <input
-          type="text"
-          name="task"
-          id="task"
-          onChange={this.handleChange}
-        />
-        <button>Add Todo</button>
-        </form>
-        <ul>
-          {listItems}
-        </ul>
-      </div>
+        <div>
+          <Route
+          path="/todos/new"
+          component={props =>(
+              <NewTodoForm {...props} handleSubmission={this.handleAdd} />
+          )}/>
+          <Route
+          exact path="/todos"
+          component={()=>(<div>
+                            <ul>
+                            {listItems}
+                            </ul>
+                          </div>)}
+          />
+        </div>
     )
   }
 
@@ -93,7 +75,7 @@ class TodoList extends Component {
 //un oggetto (che quindai rappresenta le props che avrà il componente)
 //in più avremo "GRATIS" una dispatch function per
 //lanciare le action
-function mapStateToProps(reduxState){
+function mapStateToProps(reduxState) {
 
   return {
     todos: reduxState.todos
@@ -136,7 +118,7 @@ function mapDispatchToProps(dispatch){
 
 //versione con le action importate da file esterno,
 //in questo caso da actionCreator.js
-export default connect(mapStateToProps, {addTodo, removeTodo})(TodoList);
+export default connect(mapStateToProps, { addTodo, removeTodo })(TodoList);
 //passandole come secondo parametro saranno direttamente aggiunte
 //alle props e non dovremo pià usare dispatch ma
 //semplicemente eseguire this.props.action()
