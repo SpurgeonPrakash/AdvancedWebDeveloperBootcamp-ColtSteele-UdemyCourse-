@@ -4,7 +4,7 @@ import NewTodoForm from './NewTodoForm';
 //con connect connetteremo lo store al componente
 import { connect } from 'react-redux';
 //importiamo le funzioni add e remove
-import { addTodo, removeTodo } from './actionCreators';
+import { addTodo, deleteTodo, getTodos } from './actionCreators';
 //REACT ROUTER
 import {Route} from 'react-router-dom';
 
@@ -22,6 +22,10 @@ class TodoList extends Component {
 
   }
 
+  componentDidMount(){
+    this.props.getTodos();
+  }
+
   handleAdd(val){
     this.props.addTodo(val);
   }
@@ -33,7 +37,7 @@ class TodoList extends Component {
     //   id: id
     // });
     //2.dopo aver importato le actions con connect e mapDispatchToProps
-    this.props.removeTodo(id)
+    this.props.deleteTodo(id);
   }
 
   render() {
@@ -44,8 +48,8 @@ class TodoList extends Component {
     //di ogni oggetto
     const { todos } = this.props;
 
-    const listItems = todos.map((todoObj, index) => (
-      <Todo key={index} task={todoObj.task} removeTodo={this.removeTodo.bind(this, todoObj.id)} />
+    const listItems = todos.map(todoObj => (
+      <Todo key={todoObj._id} task={todoObj.task} removeTodo={this.removeTodo.bind(this, todoObj._id)} />
     ));
 
     return (
@@ -118,7 +122,7 @@ function mapDispatchToProps(dispatch){
 
 //versione con le action importate da file esterno,
 //in questo caso da actionCreator.js
-export default connect(mapStateToProps, { addTodo, removeTodo })(TodoList);
+export default connect(mapStateToProps, { addTodo, deleteTodo, getTodos })(TodoList);
 //passandole come secondo parametro saranno direttamente aggiunte
 //alle props e non dovremo pià usare dispatch ma
 //semplicemente eseguire this.props.action()
